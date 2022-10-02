@@ -41,7 +41,21 @@ maxlength: 280,
 //Array of nested documents created with the reactionSchema
 //todo
 
+},
+//Create a virtual called reactionCount that retrieves the length of the thought's reactions array field on query.
+{
+  toJSON: {
+    virtuals: true,
+  },
+  id: false,
 });
+// Create a virtual property `upvoteCount` that gets the amount of comments per user
+thoughtSchema
+  .virtual('reactionCount')
+  // Getter
+  .get(function () {
+    return this.reactions.upvotes;
+  });
 
 const Thought = mongoose.model("Thought", thoughtSchema);
 
