@@ -5,7 +5,9 @@ const { connect } = require('mongoose');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(require());
+app.use(express.static("public"));
+
+app.use(require('./routes'));
 
 // After you create your Heroku application, visit https://dashboard.heroku.com/apps/ select the application name and add your Atlas connection string as a Config Var
 // Node will look for this environment variable and if it exists, it will use it. Otherwise, it will assume that you are running this application locally
@@ -15,6 +17,7 @@ const connectionString =
 connect(connectionString, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false
 });
 
 app.listen(PORT, () =>
