@@ -33,9 +33,9 @@ const userSchema = new Schema({
   //thoughts
 
 //Array of _id values referencing the Thought model
-
+//schema.types from 26-stu-crud-subdoc
   thoughts: {
-    type: Date, //wait
+    type: Schema.Types.ObjectId,
     ref: 'Thought',
   },
 
@@ -43,7 +43,8 @@ const userSchema = new Schema({
 
 //Array of _id values referencing the User model (self-reference)
 friends: {
-  type: Date, //wait
+  //same here
+  type: Schema.Types.ObjectId,
   ref: 'User',
 },
 
