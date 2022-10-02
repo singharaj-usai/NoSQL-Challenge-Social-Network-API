@@ -69,7 +69,7 @@ module.exports = {
   addUser(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.id },
-      { $addToSet: { responses: req.params.id } },
+      { $addToSet: { friends: req.params.id } },
       { runValidators: true, new: true }
     )
       .then((dbUserData) =>
@@ -84,7 +84,7 @@ module.exports = {
     removeFriend(req, res) {
       User.findOneAndUpdate(
         { _id: req.params.videoId },
-        { $pull: { responses: req.params.id } },
+        { $pull: { friends: req.params.id } },
         { runValidators: true, new: true }
       )
         .then((video) =>
