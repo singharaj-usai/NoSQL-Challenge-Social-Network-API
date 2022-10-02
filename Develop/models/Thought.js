@@ -24,7 +24,7 @@ maxlength: 280,
   createdAt: {
     type: Date,
     default: Date.now,
-    get: //todo
+    //get: //todo
   },
 
 //username (The user that created this thought)
