@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const transactionSchema = new Schema({
+const thoughtSchema = new Schema({
 
 //thoughtText
 
@@ -43,6 +43,6 @@ maxlength: 280,
 
 });
 
-const Transaction = mongoose.model("Transaction", transactionSchema);
+const Thought = mongoose.model("Thought", thoughtSchema);
 
-module.exports = Transaction;
+module.exports = Thought;

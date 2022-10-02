@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const transactionSchema = new Schema({
+const userSchema = new Schema({
 
 //username
 
@@ -49,6 +49,6 @@ friends: {
 
 });
 
-const Transaction = mongoose.model("Transaction", transactionSchema);
+const User = mongoose.model("User", userSchema);
 
-module.exports = Transaction;
+module.exports = User;
