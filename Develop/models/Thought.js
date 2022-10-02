@@ -25,6 +25,8 @@ maxlength: 280,
     type: Date,
     default: Date.now,
     //get: //todo
+    //momentjs look back at the week 4 activities
+    //for momentjs time format
   },
 
 //username (The user that created this thought)
@@ -40,8 +42,34 @@ maxlength: 280,
 
 //Array of nested documents created with the reactionSchema
 //todo
-
+//FOUND IT
+//25-ins_crud-subdoc video.js
+//responses: [Response],
+reactions: [reactionSchema],
 },
+//const responseSchema = new Schema(
+//  {
+//    reactionId: {
+//      type: Schema.Types.ObjectId,
+//      default: () => new Types.ObjectId(),
+ //   },
+//    responseBody: {
+//      type: String,
+ //     required: true,
+ //     maxlength: 280,
+ //   },
+//    username: {
+//      type: String,
+//      required: true,
+//    },
+//    createdAt: {
+//      type: Date,
+//      default: Date.now,
+//    },
+//  },
+
+
+
 //Create a virtual called reactionCount that retrieves the length of the thought's reactions array field on query.
 {
   toJSON: {
@@ -49,6 +77,9 @@ maxlength: 280,
   },
   id: false,
 });
+
+
+
 // Create a virtual property `upvoteCount` that gets the amount of comments per user
 thoughtSchema
   .virtual('reactionCount')
