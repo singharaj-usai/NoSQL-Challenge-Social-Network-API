@@ -47,13 +47,13 @@ maxlength: 280,
 //responses: [Response],
 reactions: [reactionSchema],
 },
-//const responseSchema = new Schema(
+//const reactionSchema = new Schema(
 //  {
 //    reactionId: {
 //      type: Schema.Types.ObjectId,
 //      default: () => new Types.ObjectId(),
  //   },
-//    responseBody: {
+//    reactionBody: {
 //      type: String,
  //     required: true,
  //     maxlength: 280,
@@ -68,8 +68,6 @@ reactions: [reactionSchema],
 //    },
 //  },
 
-
-
 //Create a virtual called reactionCount that retrieves the length of the thought's reactions array field on query.
 {
   toJSON: {
@@ -79,6 +77,27 @@ reactions: [reactionSchema],
 });
 
 
+//does this work???
+const reactionSchema = new Schema(
+  {
+    reactionId: {
+      type: Schema.Types.ObjectId,
+      default: () => new Types.ObjectId(),
+    },
+    reactionBody: {
+      type: String,
+      required: true,
+      maxlength: 280,
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+  });
 
 // Create a virtual property `upvoteCount` that gets the amount of comments per user
 thoughtSchema
