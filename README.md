@@ -24,10 +24,9 @@ DISCLAIMER: I ran out of time for now, I will finish this tomorrow so I just sub
 
 Video Demo Link: 
 
-Repository URL: https://github.com/singharaj-usai/MVC-Tech-Blog
+Repository URL: https://github.com/singharaj-usai/NoSQL-Challenge-Social-Network-API
 
 ## Made With
 
 * MVC File Structure
-* JavaScript
-* Other things
+* NoSQL Mongodb
