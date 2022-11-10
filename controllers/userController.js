@@ -4,8 +4,16 @@ const userController = {
   //get all users
   getUsers(req, res) {
     User.find()
+      .populate({
+        path: 'friends',
+        select: '-__v -thoughts'
+      })
+      .select('-__v')
       .then((users) => res.json(users))
-      .catch((err) => res.status(500).json(err));
+      .catch((err) => {
+        console.log(err)
+        res.status(500).json(err)
+      });
   },
   // get a single user
   getSingleUser(req, res) {
