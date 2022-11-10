@@ -1,84 +1,8 @@
-const mongoose = require("mongoose");
+// Thought Model
+const { Schema, model, Types } = require("mongoose");
+const dateFormat = require("../utils/dateFormat");
 
-const Schema = mongoose.Schema;
-
-const thoughtSchema = new Schema({
-
-//thoughtText
-
-//String
-//Required
-//Must be between 1 and 280 characters
-  thoughtText: {
-    type: String,
-minlength: 1,
-maxlength: 280,
-    required: "Enter a name"
-  },
-//createdAt
-
-//Date
-//Set default value to the current timestamp
-//Use a getter method to format the timestamp on query
-
-  createdAt: {
-    type: Date,
-    default: Date.now,
-    //get: //todo
-    //momentjs look back at the week 4 activities
-    //for momentjs time format
-  },
-
-//username (The user that created this thought)
-//String
-//Required
-
-  username: {
-    type: String,
-    required: "Enter a username",
-  },
-
-//reactions (These are like replies)
-
-//Array of nested documents created with the reactionSchema
-//todo
-//FOUND IT
-//25-ins_crud-subdoc video.js
-//responses: [Response],
-reactions: [reactionSchema],
-},
-//const reactionSchema = new Schema(
-//  {
-//    reactionId: {
-//      type: Schema.Types.ObjectId,
-//      default: () => new Types.ObjectId(),
- //   },
-//    reactionBody: {
-//      type: String,
- //     required: true,
- //     maxlength: 280,
- //   },
-//    username: {
-//      type: String,
-//      required: true,
-//    },
-//    createdAt: {
-//      type: Date,
-//      default: Date.now,
-//    },
-//  },
-
-//Create a virtual called reactionCount that retrieves the length of the thought's reactions array field on query.
-{
-  toJSON: {
-    virtuals: true,
-  },
-  id: false,
-});
-
-
-//does this work???
-const reactionSchema = new Schema(
+const ReactionSchema = new Schema(
   {
     reactionId: {
       type: Schema.Types.ObjectId,
@@ -86,27 +10,63 @@ const reactionSchema = new Schema(
     },
     reactionBody: {
       type: String,
-      required: true,
-      maxlength: 280,
+      required: "Please enter a reaction.",
+      trim: true,
+      minLength: [1, "Too few characters. Can you expand on that?"],
+      maxLength: [280, "Too many characters. Please be more concise!"],
     },
     username: {
       type: String,
-      required: true,
+      required: "Please enter your username.",
     },
     createdAt: {
       type: Date,
       default: Date.now,
+      get: (createdAtVal) => dateFormat(createdAtVal),
     },
-  });
+  },
+  {
+    toJSON: {
+      getters: true,
+    },
+  }
+);
 
-// Create a virtual property `upvoteCount` that gets the amount of comments per user
-thoughtSchema
-  .virtual('reactionCount')
-  // Getter
-  .get(function () {
-    return this.reactions.upvotes;
-  });
+const ThoughtSchema = new Schema(
+  {
+    thoughtText: {
+      type: String,
+      required: "Please enter a thought.",
+      trim: true,
+      minLength: [1, "Too few characters. Can you expand on that?"],
+      maxLength: [280, "Too many characters. Please be more concise!"],
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      get: (createdAtVal) => dateFormat(createdAtVal),
+    },
+    username: {
+      type: String,
+      required: "Please enter your username.",
+    },
+    reactions: [ReactionSchema],
+  },
+  {
+    toJSON: {
+      virtuals: true,
+      getters: true,
+    },
+    id: false,
+  }
+);
 
-const Thought = mongoose.model("Thought", thoughtSchema);
+ThoughtSchema.virtual("reactionCount").get(function () {
+  return this.reactions.length;
+});
 
+// Create the Thought Model using the above schema
+const Thought = model("Thought", ThoughtSchema);
+
+// Export the model
 module.exports = Thought;
