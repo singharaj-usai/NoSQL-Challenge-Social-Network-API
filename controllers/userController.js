@@ -12,11 +12,11 @@ const userController = {
       .then((users) => res.json(users))
       .catch((err) => {
         console.log(err)
-        res.status(500).json(err)
+        res.status(400).json(err)
       });
   },
   // get a single user
-  getSingleUser({req}, res) {
+  getSingleUser(req, res) {
     User.findOne({ _id: req.params.id })
       .select('-__v')
       .populate({ path: 'friends', select: '-__v -thoughts' })
@@ -27,82 +27,82 @@ const userController = {
       )
       .catch((err) => {
         console.log(err)
-        res.status(500).json(err)
+        res.status(400).json(err)
       });
   },
   // create a new user
   createUser(req, res) {
     User.create(req.body)
       .then((dbUserData) => res.json(dbUserData))
-      .catch((err) => res.status(500).json(err));
+      .catch((err) => {
+        console.log(err)
+        res.status(400).json(err)
+      });
   },
   
   updateUser(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.id },
-      { $set: req.body },
-      { runValidators: true, new: true }
-    )
+      body,
+      { runValidators: true, new: true })
       .then((dbUserData) =>
         !dbUserData
-          ? res.status(404).json({ message: 'No video with this id!' })
+          ? res.status(404).json({ message: 'No user with this id!' })
           : res.json(dbUserData)
       )
       .catch((err) => {
         console.log(err);
-        res.status(500).json(err);
+        res.status(400).json(err);
       });
   },
 
   deleteUser(req, res) {
-    Thought.findOneAndRemove({ _id: req.params.id })
-      .then((video) =>
-        !video
-          ? res.status(404).json({ message: 'No video with this id!' })
-          : User.findOneAndUpdate(
-              { thoughts: req.params.id },
-              { $pull: { responses: req.params.id } },
-              { new: true }
-            )
+    Thought.findOneAndRemove(
+      { _id: req.params.id })
+      .then((dbUserData) =>
+        !dbUserData
+          ? res.status(404).json({ message: 'No user with this id!' })
+          : res.json(dbUserData)
       )
-      .then((user) =>
-        !user
-          ? res
-              .status(404)
-              .json({ message: 'Video created but no user with this id!' })
-          : res.json({ message: 'Video successfully deleted!' })
-      )
-      .catch((err) => res.status(500).json(err));
+      .catch((err) => {
+        console.log(err);
+        res.status(400).json(err)
+      });
   },
 
-  // Add a video response
+  // Add a user response
   addUser(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.id },
-      { $addToSet: { friends: req.params.id } },
+      { $addToSet: { friends: req.params.friendId } },
       { runValidators: true, new: true }
     )
       .then((dbUserData) =>
         !dbUserData
-          ? res.status(404).json({ message: 'No video with this id!' })
+          ? res.status(404).json({ message: 'No user with this id!' })
           : res.json(dbUserData)
       )
-      .catch((err) => res.status(500).json(err));
+      .catch((err) => {
+        console.log(err)
+        res.status(400).json(err)
+      });
   },
 
     // Remove video response
     removeFriend(req, res) {
       User.findOneAndUpdate(
-        { _id: req.params.videoId },
-        { $pull: { friends: req.params.id } },
+        { _id: req.params.friendId },
+        { $pull: { friends: req.params.friendId } },
         { runValidators: true, new: true }
       )
-        .then((video) =>
-          !video
-            ? res.status(404).json({ message: 'No video with this id!' })
-            : res.json(video)
+        .then((dbUserData) =>
+          !dbUserData
+            ? res.status(404).json({ message: 'No user with this id!' })
+            : res.json(dbUserData)
         )
-        .catch((err) => res.status(500).json(err));
+        .catch((err) => {
+          res.status(400).json(err)
+        });
     },
 
 };
