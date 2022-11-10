@@ -16,17 +16,19 @@ const userController = {
       });
   },
   // get a single user
-  getSingleUser(req, res) {
-    User.findOne({ _id: req.params.userId })
+  getSingleUser({req}, res) {
+    User.findOne({ _id: req.params.id })
       .select('-__v')
-      .populate({ path: 'friends', select: '-__v' })
-      .populate({ path: 'thoughts', select: '-__v' })
+      .populate({ path: 'friends', select: '-__v -thoughts' })
       .then((user) =>
         !user
           ? res.status(404).json({ message: 'No user with that ID' })
           : res.json(user)
       )
-      .catch((err) => res.status(500).json(err));
+      .catch((err) => {
+        console.log(err)
+        res.status(500).json(err)
+      });
   },
   // create a new user
   createUser(req, res) {
