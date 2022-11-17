@@ -9,16 +9,18 @@
 
 # Overview
 
-⚡ API functions to use in Insomnia and Mongo
-
-DISCLAIMER: I ran out of time for now, I will finish this tomorrow so I just submitted what I have currently. The stuff I have finished are: controllers: userController.js, Models file, Routes file and server.js, please give me feedback for resubmission tomorrow! 
+⚡ API functions to use in Insomnia and MongoDB
 
 ## Summary
 
-💻 Description
+💻 This is a back-end of a social network where users can share their thoughts, react to their friend's thoughts, and create a friend list!
 
 * Instructions
-    * Something
+    * Download the repo to your machine using the `git clone` tab.
+    * On your IDE, use the terminal and type `npm i` and enter to install node_modules.
+    * Then type `npm start` to start the application.
+    * Open up Insomnia to do the `Get`, `Post`, `Put`, and `Delete` API testing.
+    * Open up Mongo Compass to see the data you added from Insomnia.
 
 ## Links
 
